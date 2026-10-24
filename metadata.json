@@ -1,0 +1,6 @@
+{
+  "name": "দরকার — আপনার যা দরকার, আমরা এনে দেব।",
+  "description": "দরকার (Dorkar) — আপনার যা দরকার, আমরা এনে দেব। আপনি শুধু দরকারটা বলুন। বাকিটা আমাদের।",
+  "requestFramePermissions": ["geolocation"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,117 @@
+{
+  "entities": {
+    "Order": {
+      "title": "Order",
+      "description": "Customer delivery order in Dorkar platform",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique DKR-XXXXXX order code" },
+        "customerName": { "type": "string", "description": "Full name of the customer" },
+        "phone": { "type": "string", "description": "Customer contact phone number" },
+        "items": { "type": "string", "description": "List of items requested" },
+        "address": { "type": "string", "description": "Delivery address" },
+        "latitude": { "type": "number", "description": "Customer GPS latitude" },
+        "longitude": { "type": "number", "description": "Customer GPS longitude" },
+        "distanceKm": { "type": "number", "description": "Calculated distance in km from Bhawal Mirzapur" },
+        "detectedLocationName": { "type": "string", "description": "Detected GPS address name" },
+        "preferredStore": { "type": "string", "description": "Optional preferred store or shop" },
+        "notes": { "type": "string", "description": "Special delivery instructions" },
+        "deliveryCharge": { "type": "number", "description": "Delivery fee (strictly capped at ৳60)" },
+        "status": { "type": "string", "description": "Order status" },
+        "assignedRiderId": { "type": "string", "description": "Assigned rider ID" },
+        "assignedRiderName": { "type": "string", "description": "Assigned rider name" },
+        "assignedRiderPhone": { "type": "string", "description": "Assigned rider phone" },
+        "assignedAt": { "type": "string", "description": "Timestamp when rider was assigned" },
+        "rejectionReason": { "type": "string", "description": "Reason for cancellation if rejected" },
+        "createdAt": { "type": "string", "description": "Formatted order creation timestamp" },
+        "timestamp": { "type": "number", "description": "Epoch timestamp for precise sorting" }
+      },
+      "required": ["id", "customerName", "phone", "items", "address", "deliveryCharge", "status", "timestamp"]
+    },
+    "Rider": {
+      "title": "Rider",
+      "description": "Delivery Rider profile and PIN-based login",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Rider custom ID (e.g. RID-1024)" },
+        "pin": { "type": "string", "description": "4-digit numeric PIN for secure login without Firebase Auth" },
+        "name": { "type": "string", "description": "Rider full name" },
+        "phone": { "type": "string", "description": "Rider phone number" },
+        "active": { "type": "boolean", "description": "Active duty status" },
+        "vehicleType": { "type": "string", "description": "Vehicle type used by rider" },
+        "nid": { "type": "string", "description": "National ID number" },
+        "createdAt": { "type": "string", "description": "Registration date" },
+        "timestamp": { "type": "number", "description": "Creation timestamp" },
+        "totalDeliveries": { "type": "number", "description": "Total completed deliveries count" }
+      },
+      "required": ["id", "pin", "name", "phone", "active"]
+    },
+    "AppNotification": {
+      "title": "AppNotification",
+      "description": "Realtime notification alert for Owner, Rider, or Customer",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Notification ID" },
+        "type": { "type": "string", "description": "Type of event (new_order, order_assigned, etc.)" },
+        "targetRole": { "type": "string", "description": "Role target (owner, rider, customer, all)" },
+        "targetRiderId": { "type": "string", "description": "Rider ID if targeted to rider" },
+        "orderId": { "type": "string", "description": "Associated Order ID" },
+        "title": { "type": "string", "description": "Title of the notification" },
+        "body": { "type": "string", "description": "Body message of the notification" },
+        "read": { "type": "boolean", "description": "Read status" },
+        "createdAt": { "type": "string", "description": "Formatted date" },
+        "timestamp": { "type": "number", "description": "Timestamp" }
+      },
+      "required": ["id", "type", "targetRole", "title", "body", "read", "timestamp"]
+    },
+    "DeviceToken": {
+      "title": "DeviceToken",
+      "description": "Device registration token for push notifications",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Device ID" },
+        "token": { "type": "string", "description": "FCM or client push token" },
+        "role": { "type": "string", "description": "User role (owner, rider, customer)" },
+        "userId": { "type": "string", "description": "User ID" },
+        "enabled": { "type": "boolean", "description": "Token status" },
+        "timestamp": { "type": "number", "description": "Timestamp" }
+      },
+      "required": ["id", "token", "role", "enabled"]
+    },
+    "ContactMessage": {
+      "title": "ContactMessage",
+      "description": "Contact inquiry messages",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "Sender name" },
+        "phone": { "type": "string", "description": "Sender phone number" },
+        "message": { "type": "string", "description": "Message text" },
+        "createdAt": { "type": "string", "description": "Creation timestamp" },
+        "timestamp": { "type": "number", "description": "Epoch timestamp" }
+      },
+      "required": ["name", "phone", "message"]
+    }
+  },
+  "firestore": {
+    "/orders/{orderId}": {
+      "schema": "Order",
+      "description": "Collection of delivery orders"
+    },
+    "/riders/{riderId}": {
+      "schema": "Rider",
+      "description": "Collection of delivery riders"
+    },
+    "/notifications/{notificationId}": {
+      "schema": "AppNotification",
+      "description": "Collection of push and in-app notifications"
+    },
+    "/device_tokens/{tokenId}": {
+      "schema": "DeviceToken",
+      "description": "Device push registration tokens"
+    },
+    "/messages/{messageId}": {
+      "schema": "ContactMessage",
+      "description": "Contact inquiry messages"
+    }
+  }
+}

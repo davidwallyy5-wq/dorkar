@@ -1,0 +1,52 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner() {
+      return isSignedIn() && (request.auth.token.email == 'davidwallyy5@gmail.com');
+    }
+
+    // Orders collection:
+    // - Customers can create orders (delivery charge strictly capped at ৳60)
+    // - Anyone/Customers can track orders in realtime
+    // - Riders & Admin can update status and assignments
+    match /orders/{orderId} {
+      allow create: if request.resource.data.deliveryCharge <= 60;
+      allow read, get, list: if true;
+      allow update, delete: if true;
+    }
+
+    // Riders collection:
+    // - Custom PIN-based Rider management & login (No Firebase Auth dependency)
+    // - Owner can create, edit, deactivate, and permanently delete riders
+    match /riders/{riderId} {
+      allow read, write, create, update, delete: if true;
+    }
+
+    // Notifications collection:
+    // - Realtime push & in-app alerts for new orders, status changes, and rider assignments
+    match /notifications/{notificationId} {
+      allow read, write, create, update, delete: if true;
+    }
+
+    // Device Tokens collection for push notification subscriptions
+    match /device_tokens/{tokenId} {
+      allow read, write, create, update, delete: if true;
+    }
+
+    // Contact messages collection
+    match /messages/{messageId} {
+      allow create, read, update, delete: if true;
+    }
+
+    // Admins registry collection
+    match /admins/{userId} {
+      allow read, write: if true;
+    }
+  }
+}

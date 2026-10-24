@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="bn" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>দরকার — আপনার যা দরকার, আমরা এনে দেব।</title>
+    <meta name="description" content="দরকার (Dorkar) — আপনার যা দরকার, আমরা এনে দেব। আপনি শুধু দরকারটা বলুন। বাকিটা আমাদের।" />
+    
+    <!-- Instant Universal Light Mode Initializer (Zero Flash, Never System-Override) -->
+    <script>
+      (function() {
+        try {
+          // Remove legacy keys that previously saved 'dark' automatically
+          localStorage.removeItem('dorkar_theme_preference');
+          localStorage.removeItem('theme');
+          localStorage.removeItem('dorkar_theme');
+
+          var saved = localStorage.getItem('dorkar_user_theme');
+          if (saved === 'dark') {
+            document.documentElement.classList.add('dark');
+          } else {
+            // Default is ALWAYS Light Mode for every visitor across all browsers/devices
+            document.documentElement.classList.remove('dark');
+          }
+        } catch (e) {
+          document.documentElement.classList.remove('dark');
+        }
+      })();
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <link rel="manifest" href="/manifest.json" />
+  </head>
+  <body class="bg-[#FFF7E8] text-[#0F273B] font-['Hind_Siliguri',sans-serif] antialiased selection:bg-[#0284c7] selection:text-white transition-colors duration-300">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+
